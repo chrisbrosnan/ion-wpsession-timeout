@@ -13,7 +13,7 @@
 function addScript(){
     if ( $_POST["wpsessionexpired"] != 'true' && is_user_logged_in() ){
         // Registering session timer script
-        wp_register_script( 'session-timer', plugins_url( '/scripts/session-timer.js',__FILE__ ) );
+        wp_register_script( 'session-timer', plugins_url( '/scripts/sessiontimer.js',__FILE__ ) );
         // Enqueuing session timer script
         wp_enqueue_script( 'session-timer' );
     } else { }
@@ -30,11 +30,11 @@ function startSession(){
 }
 add_action('init', 'startSession', 1);
 
-// Logs out a user from WP (but not from ADFS) after period of inactivty set in 'session-timer.js' 
+// Logs out a user from WP (but not from ADFS) after period of inactivity set in 'sessiontimer.js' 
 function logoutUser(){
     if ( $_POST["wpsessionexpired"] == 'true' ){ 
         wp_logout();
-        header("refresh:0.5;url=".$_SERVER['REQUEST_URI']."");
+        header("refresh:0.5;url=".$_POST['newpage']."");
     }
 }
 add_action('init', 'logoutUser');
